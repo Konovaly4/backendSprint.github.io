@@ -1,23 +1,23 @@
+/* eslint-disable quotes */
 const path = require('path');
 
+// eslint-disable-next-line import/no-dynamic-require
 const users = require(path.join(__dirname, '../data/users.json'));
-
-/*const doesUserExist = (req, res, next) => {
-  if(!users[req.params._id]) {
-    res.send({"message": "Нет пользователя с таким id"});
-    return;
-  };
-  next();
-}*/
 
 const userList = (req, res) => {
   res.send(users);
 };
 
 const getUserById = (req, res) => {
+  // eslint-disable-next-line arrow-body-style
   const user = users.find((elem) => {
+    // eslint-disable-next-line no-underscore-dangle
     return elem._id === req.params.id;
   });
+  if (!user) {
+    // eslint-disable-next-line quote-props
+    res.status(404).send({ "message": "Нет пользователя с таким id" });
+  }
   res.send(user);
 };
 
