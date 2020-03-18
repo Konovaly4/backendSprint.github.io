@@ -1,7 +1,7 @@
 # Место (backend at local "express" server)
 Yandex Praktikum single page testwork for Sprint 12 by Max Konovalov
 
-v0.0.1 - First release
+v0.0.2 - Bug fixed, some improvement added
 
 ## About
 This testwork is about launch and configure local server via "Express" by Node JS for frontend part of Mesto project ([Sprint 11](https://konovaly4.github.io/Praktikum_sprint_11.github.io/)). Cards and users lists were received as project defaults.
