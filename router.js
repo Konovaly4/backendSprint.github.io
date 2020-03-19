@@ -7,6 +7,6 @@ const wrongUrl = require('./routes/wrongUrl');
 router.get('/users', userList);
 router.get('/users/:id', getUserById);
 router.get('/cards', cardsList);
-router.all('/:value', wrongUrl);
+router.all('/*', wrongUrl);
 
 module.exports = router;
