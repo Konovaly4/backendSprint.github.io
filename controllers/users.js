@@ -18,3 +18,25 @@ module.exports.addUser = (req, res) => {
     .then((user) => res.status(200).send({ data: user }))
     .catch(() => res.status(500).send({ message: 'error create user' }));
 };
+
+module.exports.updateUser = (req, res) => {
+  const { name, about } = req.body;
+  User.findByIdAndUpdate(req.user._id, { name, about }, {
+    new: true,
+    runValidators: true,
+    upsert: false,
+  })
+    .then((user) => res.status(200).send({ data: user }))
+    .catch(() => res.status(500).send({ message: 'error update user' }));
+};
+
+module.exports.updateAvatar = (req, res) => {
+  const { avatar } = req.body;
+  User.findByIdAndUpdate(req.user._id, { avatar }, {
+    new: true,
+    runValidators: true,
+    upsert: false,
+  })
+    .then((user) => res.status(200).send({ data: user }))
+    .catch(() => res.status(500).send({ message: 'error update avatar' }));
+};
