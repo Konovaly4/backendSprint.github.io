@@ -25,7 +25,7 @@ module.exports.checkCardOwner = (req, res, next) => {
     .populate('owner')
     .then((card) => {
       if (!card) {
-        res.status(404).send({ message: 'card to delete not found' });
+        res.status(404).send({ message: 'card to remove not found' });
         return;
       }
       if (card.owner.id !== req.user._id) {
@@ -39,13 +39,7 @@ module.exports.checkCardOwner = (req, res, next) => {
 
 module.exports.removeCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
-    .then((card) => {
-      if (!card) {
-        res.status(404).send({ message: 'card to remove is not found' });
-        return;
-      }
-      res.status(200).send({ data: card });
-    })
+    .then((card) => res.status(200).send({ data: card }))
     .catch((err) => res.status(500).send({ message: err.message }));
 };
 
