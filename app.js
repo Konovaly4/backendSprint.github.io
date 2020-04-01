@@ -11,12 +11,11 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
 });
 
-// app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use((req, res, next) => {
   req.user = {
-    _id: '5e7ba96c3fc1f6168417d8c2',
+    _id: '5e8317f409b9e753d448cdf0',
   };
   next();
 });

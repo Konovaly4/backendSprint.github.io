@@ -3,35 +3,59 @@ const Card = require('../models/card');
 module.exports.getCards = (req, res) => {
   Card.find({})
     .populate('owner')
-    .then((cards) => res.status(200).send({ data: cards }))
-    .catch(() => res.status(500).send({ message: 'error find card' }));
+    .then((cards) => {
+      if (!cards) {
+        res.status(404).send({ message: 'there is no cards' });
+        return;
+      }
+      res.status(200).send({ data: cards });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.addCard = (req, res) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.status(200).send({ data: card }))
-    .catch(() => res.status(500).send({ message: 'error creating card' }));
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.removeCard = (req, res) => {
-  Card.findByIdAndRemove(req.params._id)
-    .then((card) => res.status(200).send({ data: card }))
-    .catch(() => res.status(500).send({ message: 'error deleting card' }));
+  Card.findByIdAndRemove(req.params.cardId)
+    .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'card to remove is not found' });
+        return;
+      }
+      res.status(200).send({ data: card });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.likeCard = (req, res) => {
-  Card.findByIdAndUpdate(req.params._id,
+  Card.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true })
-    .then((card) => res.status(200).send({ data: card }))
-    .catch(() => res.status(500).send({ message: 'error set like to card' }));
+    .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'card to like is not found' });
+        return;
+      }
+      res.status(200).send({ data: card });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.unlikeCard = (req, res) => {
-  Card.findByIdAndUpdate(req.params._id,
+  Card.findByIdAndUpdate(req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true })
-    .then((card) => res.status(200).send({ data: card }))
-    .catch(() => res.status(500).send({ message: 'error remove like from card' }));
+    .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'card to unlike is not found' });
+        return;
+      }
+      res.status(200).send({ data: card });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };

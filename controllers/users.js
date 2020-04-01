@@ -2,21 +2,33 @@ const User = require('../models/user');
 
 module.exports.getUsers = (req, res) => {
   User.find({})
-    .then((users) => res.status(200).send({ data: users }))
-    .catch(() => res.status(500).send({ message: 'error find user' }));
+    .then((users) => {
+      if (!users) {
+        res.status(404).send({ message: 'there is no users' });
+        return;
+      }
+      res.status(200).send({ data: users });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.getUserById = (req, res) => {
   User.findById(req.params.id)
-    .then((user) => res.status(200).send({ data: user }))
-    .catch(() => res.status(500).send({ message: 'error find user by id' }));
+    .then((user) => {
+      if (!user) {
+        res.status(404).send({ message: 'user is not found' });
+        return;
+      }
+      res.status(200).send({ data: user });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.addUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((user) => res.status(200).send({ data: user }))
-    .catch(() => res.status(500).send({ message: 'error create user' }));
+    .catch((err) => res.status(500).send(err.message));
 };
 
 module.exports.updateUser = (req, res) => {
@@ -26,8 +38,14 @@ module.exports.updateUser = (req, res) => {
     runValidators: true,
     upsert: false,
   })
-    .then((user) => res.status(200).send({ data: user }))
-    .catch(() => res.status(500).send({ message: 'error update user' }));
+    .then((user) => {
+      if (!user) {
+        res.status(404).send({ message: 'user to update is not found' });
+        return;
+      }
+      res.status(200).send({ data: user });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports.updateAvatar = (req, res) => {
@@ -37,6 +55,12 @@ module.exports.updateAvatar = (req, res) => {
     runValidators: true,
     upsert: false,
   })
-    .then((user) => res.status(200).send({ data: user }))
-    .catch(() => res.status(500).send({ message: 'error update avatar' }));
+    .then((user) => {
+      if (!user) {
+        res.status(404).send({ message: 'avatar to update is not found' });
+        return;
+      }
+      res.status(200).send({ data: user });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
 };

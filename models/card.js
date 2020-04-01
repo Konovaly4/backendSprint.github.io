@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    match: [/[a-zа-яё0-9]+/gi, '"card name" is not valid'],
     minlength: 2,
     maxlength: 30,
+    required: true,
   },
   link: {
     type: String,
@@ -25,7 +26,5 @@ const cardSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-// !!!Link Validation!!!
 
 module.exports = mongoose.model('card', cardSchema);
