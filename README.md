@@ -47,15 +47,15 @@ Use Postman (or any request/response app) request fiels to create request and re
 Functions:
 
 1. Create new user
-..* Request status: POST
-..* Request headers: 
+* Request status: POST
+* Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-..* URL: [http://localhost:3000/users]
-..* URL params: none
-..* Data params: user.json, typed in request body, like this:
+* URL: [http://localhost:3000/users]
+* URL params: none
+* Data params: user.json, typed in request body, like this:
 ```
 {
   "name": "username",
@@ -63,35 +63,35 @@ Functions:
   "avatar": "link to avatar in URL format"
 }
 ```
-..* Response: user data with .json format
-..* Errors: error with actual status and message
+* Response: user data with .json format
+* Errors: error with actual status and message
 
 2. Get users
-..* Request status: GET
-..* Request headers: 
+* Request status: GET
+* Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-..* URL: [http://localhost:3000/users]
-..* URL params: none
-..* Data params: none
-..* Response: users collection with .json format
-..* Errors: error with actual status and message
+* URL: [http://localhost:3000/users]
+* URL params: none
+* Data params: none
+* Response: users collection with .json format
+* Errors: error with actual status and message
 
 3. Get user by ID
-..* Request status: GET
-..* Request headers: 
+* Request status: GET
+* Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-..* URL: [http://localhost:3000/users/:id]
-..* URL params: /:id must be a string with hash format
-..* Data params: none 
-..* Note: user._id is MongoDB created _id parameter after adding user to database. Get it from database manually via MongoDB Compass.
-..* Response: user data with .json format
-..* Errors: error with actual status and message
+* URL: [http://localhost:3000/users/:id]
+* URL params: /:id must be a string with hash format
+* Data params: none 
+* Note: user._id is MongoDB created _id parameter after adding user to database. Get it from database manually via MongoDB Compass.
+* Response: user data with .json format
+* Errors: error with actual status and message
 
 4. Changing user avatar
 ..* Request status: PATCH
@@ -100,88 +100,88 @@ Functions:
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-..* URL: [http://localhost:3000/users/me/avatar]
-..* URL params: none
-..* Data params: user.json, typed in request body, like this:
+* URL: [http://localhost:3000/users/me/avatar]
+* URL params: none
+* Data params: user.json, typed in request body, like this:
 ```
 {
   "avatar": "link to avatar in URL format"
 }
 ```
-..* Response: updated user data with .json format
-..* Errors: error with actual status and message
+* Response: updated user data with .json format
+* Errors: error with actual status and message
 
 5. Creating new card
-..* Request status: POST
-..* Request headers: 
+* Request status: POST
+* Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-..* URL: [http://localhost:3000/cards]
-..* URL params: none
-..* Data params: card.json, typed in request body, like this:
+* URL: [http://localhost:3000/cards]
+* URL params: none
+* Data params: card.json, typed in request body, like this:
 ```
 {
   "name": "cardname",
   "link": "link to card in URL format"
 }
 ```
-..* Response: card data with .json format
-..* Errors: error with actual status and message
+* Response: card data with .json format
+* Errors: error with actual status and message
 
 6. Get cards
-..* Request status: GET
-..* Request headers: 
+* Request status: GET
+* Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-..* URL: [http://localhost:3000/cards]
-..* URL params: none
-..* Data params: none
-..* Response: cards collection with .json format
-..* Errors: error with actual status and message
+* URL: [http://localhost:3000/cards]
+* URL params: none
+* Data params: none
+* Response: cards collection with .json format
+* Errors: error with actual status and message
 
 7. Deleting card 
-..* Request status: DELETE
-..* Request headers: 
+* Request status: DELETE
+* Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-..* URL: [http://localhost:3000/cards/:cardId]
-..* URL params: /cardId must be a string with hash format
-..* Data params: none 
-..* Note: cardId is MongoDB created _id parameter after adding card to database. Get it from database manually via MongoDB Compass.
-..* Response: deleted card data with .json format
-..* Errors: error with actual status and message
+* URL: [http://localhost:3000/cards/:cardId]
+* URL params: /cardId must be a string with hash format
+* Data params: none 
+* Note: cardId is MongoDB created _id parameter after adding card to database. Get it from database manually via MongoDB Compass.
+* Response: deleted card data with .json format
+* Errors: error with actual status and message
 
 8. Set "like" to card
-..* Request status: PUT
-..* Request headers: 
+* Request status: PUT
+* Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-..* URL: [http://localhost:3000/cards/:cardId/likes]
-..* URL params: /cardId must be a string with hash format
-..* Data params: none 
-..* Note: cardId is MongoDB created _id parameter after adding card to database. Get it from database manually via MongoDB Compass
-..* Response: updated card data with .json format ("like" will be a _id in "likes" array)
-..* Errors: error with actual status and message
+* URL: [http://localhost:3000/cards/:cardId/likes]
+* URL params: /cardId must be a string with hash format
+* Data params: none 
+* Note: cardId is MongoDB created _id parameter after adding card to database. Get it from database manually via MongoDB Compass
+* Response: updated card data with .json format ("like" will be a _id in "likes" array)
+* Errors: error with actual status and message
 
 9. Unset "like" to card
-..* Request status: DELETE
-..* Request headers: 
+* Request status: DELETE
+* Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-..* URL: [http://localhost:3000/cards/:cardId/likes]
-..* URL params: /cardId must be a string with hash format
-..* Data params: none 
-..* Note: cardId is MongoDB created _id parameter after adding card to database. Get it from database manually via MongoDB Compass
-..* Response: updated card data with .json format ("like" will be a _id in "likes" array)
-..* Errors: error with actual status and message
+* URL: [http://localhost:3000/cards/:cardId/likes]
+* URL params: /cardId must be a string with hash format
+* Data params: none 
+* Note: cardId is MongoDB created _id parameter after adding card to database. Get it from database manually via MongoDB Compass
+* Response: updated card data with .json format ("like" will be a _id in "likes" array)
+* Errors: error with actual status and message
 
