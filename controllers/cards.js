@@ -20,6 +20,19 @@ module.exports.addCard = (req, res) => {
     .catch((err) => res.status(500).send({ message: err.message }));
 };
 
+module.exports.checkCardOwner = (req, res, next) => {
+  Card.findById(req.params.cardId)
+    .populate('owner')
+    .then((card) => {
+      if (card.owner.id !== req.user._id) {
+        res.status(403).send({ message: 'you cat not remove this card' });
+        return;
+      }
+      next();
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
+};
+
 module.exports.removeCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
