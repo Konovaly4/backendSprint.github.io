@@ -1,5 +1,5 @@
 # Место (backend at local "express" server)
-Yandex Praktikum single page testwork for Sprint 12 by Max Konovalov
+Yandex Praktikum single page testwork for Sprint 13 by Max Konovalov
 
 v0.1.0 - Only backend part avaliable, MongoDB included
 
