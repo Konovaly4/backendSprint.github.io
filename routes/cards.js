@@ -1,13 +1,13 @@
-const path = require('path');
-const fs = require('fs');
+const router = require('express').Router();
+const {
+  getCards, addCard, checkCardOwner, removeCard, likeCard, unlikeCard,
+} = require('../controllers/cards');
 
-const cardsList = (req, res) => {
-  const cards = path.join(__dirname, '../data/cards.json');
-  const reader = fs.createReadStream(cards, { encoding: 'utf8' });
-  res.writeHead(200, {
-    'content-type': 'appplcation/json',
-  });
-  reader.pipe(res);
-};
+router.get('/', getCards);
+router.post('/', addCard);
+router.delete('/:cardId', checkCardOwner);
+router.delete('/:cardId', removeCard);
+router.put('/:cardId/likes', likeCard);
+router.delete('/:cardId/likes', unlikeCard);
 
-module.exports = { cardsList };
+module.exports = router;
