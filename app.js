@@ -9,7 +9,9 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
-});
+})
+  .then(() => console.log('connet to database'))
+  .catch((err) => console.log(err.message));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

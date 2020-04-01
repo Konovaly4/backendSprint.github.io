@@ -24,6 +24,10 @@ module.exports.checkCardOwner = (req, res, next) => {
   Card.findById(req.params.cardId)
     .populate('owner')
     .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'card to delete not found' });
+        return;
+      }
       if (card.owner.id !== req.user._id) {
         res.status(403).send({ message: 'you cat not remove this card' });
         return;
