@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const PORT = require('./config');
 
+const users = require('./controllers/users');
+
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -21,6 +23,8 @@ app.use((req, res, next) => {
   };
   next();
 });
+app.post('/signin', users.login);
+app.post('/signup', users.addUser);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const isEmail = require('validator/lib/isEmail');
+const checkValidity = require('validator');
+
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -19,14 +20,17 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     required: true,
-    match: [/^https?:\/\/(www\.)?(((\d{1,3}\.){3}\d{1,3}(?!\d))|([A-Za-z0-9]+(\.[A-Za-z0-9]+)?\.[a-z]{2,3}))(:\d{2,5}(?!\d))?([A-Za-z0-9/]+#?$)?/, 'avatar link is not valid'],
+    validate: {
+      validator: (v) => checkValidity.isUrl(v),
+      message: 'Неправильная ссылка на аватар',
+    },
   },
   email: {
     type: String,
     unique: true,
     required: true,
     validate: {
-      validator: (v) => isEmail(v),
+      validator: (v) => checkValidity.isEmail(v),
       message: 'Неправильный формат почты',
     },
   },
@@ -36,5 +40,22 @@ const userSchema = new mongoose.Schema({
     minlength: 10,
   },
 });
+
+userSchema.statics.findUserByData(req, res) = function(email, password) {
+  return this.findOne({ email })
+  .then((user) => {
+    if(!user) {
+      return Promise.reject(new Error('Wrong email or password'));
+    }
+    return bcrypt.compare(password, user.password)
+      .then((match) => {
+        if(!match) {
+          return Promise.reject(new Error('Wrong email or password'));
+        }
+        return user;
+      })
+      .catch((err) => res.status(500).send({ message: err.message }));
+  })
+}
 
 module.exports = mongoose.model('user', userSchema);

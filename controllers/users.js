@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 module.exports.getUsers = (req, res) => {
@@ -71,4 +72,18 @@ module.exports.updateAvatar = (req, res) => {
       res.status(200).send({ data: user });
     })
     .catch((err) => res.status(500).send({ message: err.message }));
+};
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  return User.findUserByData(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, 'thereisthekey', { expiresIn: '7d' });
+      // key needed to add in NODE_ENV!!!!
+      res.send({ token }); // add to kookie!!
+    })
+    .catch((err) => {
+      res.status(401).send({ message: err.message });
+    });
 };
