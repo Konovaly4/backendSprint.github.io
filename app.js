@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const PORT = require('./config');
 
 const users = require('./controllers/users');
+const auth = require('./middlewares/auth');
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use((req, res, next) => {
 });
 app.post('/signin', users.login);
 app.post('/signup', users.addUser);
-app.use('/users', require('./routes/users'));
-app.use('/cards', require('./routes/cards'));
+app.use('/users', auth, require('./routes/users'));
+app.use('/cards', auth, require('./routes/cards'));
 
 app.listen(PORT);
