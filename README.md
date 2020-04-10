@@ -2,6 +2,7 @@
 Yandex Praktikum single page testwork for Sprint 13 by Max Konovalov
 
 v0.1.0 - Only backend part avaliable, MongoDB included
+
 v0.2.1 - Authorization via token included
 
 ## About
