@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -13,17 +14,12 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useCreateIndex: true,
   useFindAndModify: false,
 })
-  .then(() => console.log('connet to database'))
+  .then(() => console.log('mongoose is running'))
   .catch((err) => console.log(err.message));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-  req.user = {
-    _id: '5e8317f409b9e753d448cdf0',
-  };
-  next();
-});
+
 app.post('/signin', users.login);
 app.post('/signup', users.addUser);
 app.use('/users', auth, require('./routes/users'));

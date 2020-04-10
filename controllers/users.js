@@ -34,10 +34,11 @@ module.exports.addUser = (req, res) => {
     .then((hash) => {
       User.create({
         name, about, avatar, email, password: hash,
-      });
+      })
+        .then((user) => res.status(201).send({ data: user }))
+        .catch((err) => res.status(401).send({ message: err.message }));
     })
-    .then((user) => res.status(201).send({ data: user }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => res.status(401).send({ message: err.message }));
 };
 
 module.exports.updateUser = (req, res) => {
@@ -76,11 +77,10 @@ module.exports.updateAvatar = (req, res) => {
 
 module.exports.login = (req, res) => {
   const { email, password } = req.body;
-
+  //  const { NODE_ENV, JWT_SECRET } = process.env;
   return User.findUserByData(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, 'thereisthekey', { expiresIn: '7d' });
-      // key needed to add in NODE_ENV!!!!
       res.send({ token }); // add to kookie!!
     })
     .catch((err) => {

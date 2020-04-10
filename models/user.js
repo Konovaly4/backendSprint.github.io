@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const checkValidity = require('validator');
 
 
@@ -21,7 +22,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => checkValidity.isUrl(v),
+      validator: (v) => checkValidity.isURL(v),
       message: 'Неправильная ссылка на аватар',
     },
   },
@@ -38,24 +39,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 10,
+    select: false,
   },
 });
 
-userSchema.statics.findUserByData(req, res) = function(email, password) {
-  return this.findOne({ email })
-  .then((user) => {
-    if(!user) {
-      return Promise.reject(new Error('Wrong email or password'));
-    }
-    return bcrypt.compare(password, user.password)
-      .then((match) => {
-        if(!match) {
-          return Promise.reject(new Error('Wrong email or password'));
-        }
-        return user;
-      })
-      .catch((err) => res.status(500).send({ message: err.message }));
-  })
-}
+userSchema.statics.findUserByData = function (email, password) {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new Error('Wrong email or password'));
+      }
+      return bcrypt.compare(password, user.password)
+        .then((match) => {
+          if (!match) {
+            return Promise.reject(new Error('Wrong email or password'));
+          }
+          return user;
+        });
+    });
+};
 
 module.exports = mongoose.model('user', userSchema);
