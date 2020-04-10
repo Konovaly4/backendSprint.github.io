@@ -2,7 +2,7 @@
 Yandex Praktikum single page testwork for Sprint 13 by Max Konovalov
 
 v0.1.0 - Only backend part avaliable, MongoDB included
-v0.2.0 - Authorization via token included
+v0.2.1 - Authorization via token included
 
 ## About
 This testwork is about launch and configure local server via "Express" by Node JS for frontend part of Mesto project ([Sprint 11](https://konovaly4.github.io/Praktikum_sprint_11.github.io/)). This version includes MongoDB and Mongoose to contain collections of users and cards.
