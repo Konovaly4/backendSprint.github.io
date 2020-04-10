@@ -85,7 +85,6 @@ Functions:
   "email": "email adress with email format",
   "password": "password with free format" (password must be actual to user in database)
 }
-```
 * Response: token with .json format
 * Errors: error with actual status and messages
 
