@@ -1,7 +1,6 @@
 # Место (backend at local "express" server)
 Yandex Praktikum single page testwork for Sprint 13 by Max Konovalov
 
-v0.1.0 - Only backend part avaliable, MongoDB included
 v0.2.0 - Authorization via token included
 v0.2.1 - Some bug fixed
 v0.2.2 - Review bug fixed, helmet module added
@@ -86,7 +85,6 @@ Functions:
   "email": "email adress with email format",
   "password": "password with free format" (password must be actual to user in database)
 }
-```
 * Response: token with .json format
 * Errors: error with actual status and messages
 
