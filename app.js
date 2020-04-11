@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const PORT = require('./config');
 
@@ -18,6 +19,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   .then(() => console.log('mongoose is running'))
   .catch((err) => console.log(err.message));
 
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
