@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => checkValidity.isURL(v),
-      message: 'Неправильная ссылка на аватар',
+      message: 'link format is incorrect',
     },
   },
   email: {
@@ -32,17 +32,18 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => checkValidity.isEmail(v),
-      message: 'Неправильный формат почты',
+      message: 'email format is incorrect',
     },
   },
   password: {
     type: String,
     required: true,
-    minlength: 10,
+    minlength: 5,
     select: false,
   },
 });
 
+// eslint-disable-next-line func-names
 userSchema.statics.findUserByData = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {

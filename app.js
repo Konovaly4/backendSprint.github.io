@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -24,5 +25,7 @@ app.post('/signin', users.login);
 app.post('/signup', users.addUser);
 app.use('/users', auth, require('./routes/users'));
 app.use('/cards', auth, require('./routes/cards'));
+
+app.use('/', require('./routes/otherReq'));
 
 app.listen(PORT);

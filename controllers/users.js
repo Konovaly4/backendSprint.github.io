@@ -32,12 +32,23 @@ module.exports.addUser = (req, res) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
+  if (!password || (password.length < 5)) {
+    res.status(400).send({ message: 'password is incorrect' });
+    return;
+  }
   bcrypt.hash(password, 10)
     .then((hash) => {
       User.create({
         name, about, avatar, email, password: hash,
       })
-        .then((user) => res.status(201).send({ data: user }))
+        .then((user) => {
+          res.status(201).send({
+            _id: user._id,
+            name: user.name,
+            about: user.about,
+            avatar: user.avatar,
+          });
+        })
         .catch((err) => res.status(401).send({ message: err.message }));
     })
     .catch((err) => res.status(401).send({ message: err.message }));
