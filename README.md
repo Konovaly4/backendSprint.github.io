@@ -2,7 +2,9 @@
 Yandex Praktikum single page testwork for Sprint 13 by Max Konovalov
 
 v0.2.0 - Authorization via token included
+
 v0.2.1 - Some bug fixed
+
 v0.2.2 - Review bug fixed, helmet module added
 
 ## About
