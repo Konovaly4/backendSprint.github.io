@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const PORT = require('./config');
 
 const users = require('./controllers/users');
@@ -20,6 +21,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   .catch((err) => console.log(err.message));
 
 app.use(helmet());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
