@@ -1,4 +1,8 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+
+const { JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -25,10 +29,29 @@ module.exports.getUserById = (req, res) => {
 };
 
 module.exports.addUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
-    .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
+  if (!password || (password.length < 5)) {
+    res.status(400).send({ message: 'password is incorrect' });
+    return;
+  }
+  bcrypt.hash(password, 10)
+    .then((hash) => {
+      User.create({
+        name, about, avatar, email, password: hash,
+      })
+        .then((user) => {
+          res.status(201).send({
+            _id: user._id,
+            name: user.name,
+            about: user.about,
+            avatar: user.avatar,
+          });
+        })
+        .catch((err) => res.status(401).send({ message: err.message }));
+    })
+    .catch((err) => res.status(401).send({ message: err.message }));
 };
 
 module.exports.updateUser = (req, res) => {
@@ -63,4 +86,16 @@ module.exports.updateAvatar = (req, res) => {
       res.status(200).send({ data: user });
     })
     .catch((err) => res.status(500).send({ message: err.message }));
+};
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+  return User.findUserByData(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+      res.send({ token }); // add to kookie!!
+    })
+    .catch((err) => {
+      res.status(401).send({ message: err.message });
+    });
 };

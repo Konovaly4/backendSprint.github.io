@@ -1,7 +1,11 @@
 # Место (backend at local "express" server)
 Yandex Praktikum single page testwork for Sprint 13 by Max Konovalov
 
-v0.1.0 - Only backend part avaliable, MongoDB included
+v0.2.0 - Authorization via token included
+
+v0.2.1 - Some bug fixed
+
+v0.2.2 - Review bug fixed, helmet module added
 
 ## About
 This testwork is about launch and configure local server via "Express" by Node JS for frontend part of Mesto project ([Sprint 11](https://konovaly4.github.io/Praktikum_sprint_11.github.io/)). This version includes MongoDB and Mongoose to contain collections of users and cards.
@@ -53,25 +57,48 @@ Functions:
 "Accept": "application/json"
 "Content-Type": "application/json"
 ```
-* URL: [http://localhost:3000/users]
+* URL: [http://localhost:3000/signup]
 * URL params: none
 * Data params: user.json, typed in request body, like this:
 ```
 {
   "name": "username",
   "about": "any description about user",
-  "avatar": "link to avatar in URL format"
+  "avatar": "link to avatar in URL format",
+  "email": "email adress with email format",
+  "password": "password with free format"
 }
 ```
 * Response: user data with .json format
 * Errors: error with actual status and message
 
-2. Get users
+2. User's logging in
 * Request status: GET
 * Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
+```
+* URL: [http://localhost:3000/signin]
+* URL params: none
+* Data params: user.json, typed in request body, like this:
+```
+{
+  "email": "email adress with email format",
+  "password": "password with free format" (password must be actual to user in database)
+}
+* Response: token with .json format
+* Errors: error with actual status and messages
+
+Note: All functions below avaliable after logging in and receiving thr token.
+
+3. Get users
+* Request status: GET
+* Request headers: 
+```
+"Accept": "application/json"
+"Content-Type": "application/json"
+"Authorization": "Bearer (token)"
 ```
 * URL: [http://localhost:3000/users]
 * URL params: none
@@ -79,26 +106,27 @@ Functions:
 * Response: users collection with .json format
 * Errors: error with actual status and message
 
-3. Get user by ID
+4. Get user by ID
 * Request status: GET
 * Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
+"Authorization": "Bearer (token)"
 ```
 * URL: [http://localhost:3000/users/:id]
 * URL params: /:id must be a string with hash format
 * Data params: none 
-* Note: user._id is MongoDB created _id parameter after adding user to database. Get it from database manually via MongoDB Compass.
 * Response: user data with .json format
 * Errors: error with actual status and message
 
-4. Changing user avatar
-..* Request status: PATCH
-..* Request headers: 
+5. Changing user avatar
+* Request status: PATCH
+* Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
+"Authorization": "Bearer (token)"
 ```
 * URL: [http://localhost:3000/users/me/avatar]
 * URL params: none
@@ -111,12 +139,13 @@ Functions:
 * Response: updated user data with .json format
 * Errors: error with actual status and message
 
-5. Creating new card
+6. Creating new card
 * Request status: POST
 * Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
+"Authorization": "Bearer (token)"
 ```
 * URL: [http://localhost:3000/cards]
 * URL params: none
@@ -130,12 +159,13 @@ Functions:
 * Response: card data with .json format
 * Errors: error with actual status and message
 
-6. Get cards
+7. Get cards
 * Request status: GET
 * Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
+"Authorization": "Bearer (token)"
 ```
 * URL: [http://localhost:3000/cards]
 * URL params: none
@@ -143,7 +173,7 @@ Functions:
 * Response: cards collection with .json format
 * Errors: error with actual status and message
 
-7. Deleting card 
+8. Deleting card 
 * Request status: DELETE
 * Request headers: 
 ```
@@ -153,35 +183,34 @@ Functions:
 * URL: [http://localhost:3000/cards/:cardId]
 * URL params: /cardId must be a string with hash format
 * Data params: none 
-* Note: cardId is MongoDB created _id parameter after adding card to database. Get it from database manually via MongoDB Compass.
 * Response: deleted card data with .json format
 * Errors: error with actual status and message
 
-8. Set "like" to card
+9. Set "like" to card
 * Request status: PUT
 * Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
+"Authorization": "Bearer (token)"
 ```
 * URL: [http://localhost:3000/cards/:cardId/likes]
 * URL params: /cardId must be a string with hash format
 * Data params: none 
-* Note: cardId is MongoDB created _id parameter after adding card to database. Get it from database manually via MongoDB Compass
 * Response: updated card data with .json format ("like" will be a _id in "likes" array)
 * Errors: error with actual status and message
 
-9. Unset "like" to card
+10. Unset "like" to card
 * Request status: DELETE
 * Request headers: 
 ```
 "Accept": "application/json"
 "Content-Type": "application/json"
+"Authorization": "Bearer (token)"
 ```
 * URL: [http://localhost:3000/cards/:cardId/likes]
 * URL params: /cardId must be a string with hash format
 * Data params: none 
-* Note: cardId is MongoDB created _id parameter after adding card to database. Get it from database manually via MongoDB Compass
 * Response: updated card data with .json format ("like" will be a _id in "likes" array)
 * Errors: error with actual status and message
 

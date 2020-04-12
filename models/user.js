@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const checkValidity = require('validator');
+
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -18,8 +21,43 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     required: true,
-    match: [/^https?:\/\/(www\.)?(((\d{1,3}\.){3}\d{1,3}(?!\d))|([A-Za-z0-9]+(\.[A-Za-z0-9]+)?\.[a-z]{2,3}))(:\d{2,5}(?!\d))?([A-Za-z0-9/]+#?$)?/, 'avatar link is not valid'],
+    validate: {
+      validator: (v) => checkValidity.isURL(v),
+      message: 'link format is incorrect',
+    },
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    validate: {
+      validator: (v) => checkValidity.isEmail(v),
+      message: 'email format is incorrect',
+    },
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 5,
+    select: false,
   },
 });
+
+// eslint-disable-next-line func-names
+userSchema.statics.findUserByData = function (email, password) {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new Error('Wrong email or password'));
+      }
+      return bcrypt.compare(password, user.password)
+        .then((match) => {
+          if (!match) {
+            return Promise.reject(new Error('Wrong email or password'));
+          }
+          return user;
+        });
+    });
+};
 
 module.exports = mongoose.model('user', userSchema);
