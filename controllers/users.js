@@ -1,40 +1,39 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const BadRequestErr = require('../errors/badRequestErr');
+const NotFoundErr = require('../errors/notFoundErr');
 
 const { JWT_SECRET } = process.env;
 
-module.exports.getUsers = (req, res) => {
+module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
       if (!users) {
-        res.status(404).send({ message: 'there is no users' });
-        return;
+        throw new NotFoundErr('there is no users');
       }
       res.status(200).send({ data: users });
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(next);
 };
 
-module.exports.getUserById = (req, res) => {
+module.exports.getUserById = (req, res, next) => {
   User.findById(req.params.id)
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'user is not found' });
-        return;
+        throw new NotFoundErr('user is not found');
       }
       res.status(200).send({ data: user });
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(next);
 };
 
-module.exports.addUser = (req, res) => {
+module.exports.addUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
   if (!password || (password.length < 5)) {
-    res.status(400).send({ message: 'password is incorrect' });
-    return;
+    throw new BadRequestErr('password is required or incorrect');
   }
   bcrypt.hash(password, 10)
     .then((hash) => {
@@ -49,12 +48,12 @@ module.exports.addUser = (req, res) => {
             avatar: user.avatar,
           });
         })
-        .catch((err) => res.status(401).send({ message: err.message }));
+        .catch(next);
     })
-    .catch((err) => res.status(401).send({ message: err.message }));
+    .catch(next);
 };
 
-module.exports.updateUser = (req, res) => {
+module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, {
     new: true,
@@ -62,16 +61,12 @@ module.exports.updateUser = (req, res) => {
     upsert: false,
   })
     .then((user) => {
-      if (!user) {
-        res.status(404).send({ message: 'user to update is not found' });
-        return;
-      }
       res.status(200).send({ data: user });
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(next);
 };
 
-module.exports.updateAvatar = (req, res) => {
+module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, {
     new: true,
@@ -79,16 +74,12 @@ module.exports.updateAvatar = (req, res) => {
     upsert: false,
   })
     .then((user) => {
-      if (!user) {
-        res.status(404).send({ message: 'avatar to update is not found' });
-        return;
-      }
       res.status(200).send({ data: user });
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(next);
 };
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByData(email, password)
     .then((user) => {
@@ -99,7 +90,5 @@ module.exports.login = (req, res) => {
       })
         .end();
     })
-    .catch((err) => {
-      res.status(401).send({ message: err.message });
-    });
+    .catch(next);
 };

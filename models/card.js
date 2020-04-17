@@ -4,10 +4,10 @@ const checkValidity = require('validator');
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
-    match: [/[a-zа-яё0-9]+/gi, '"card name" is not valid'],
+    match: [/[a-zа-яё0-9]+/gi, 'card name is not valid'],
     minlength: 2,
     maxlength: 30,
-    required: true,
+    required: [true, 'card name required'],
   },
   link: {
     type: String,
@@ -15,7 +15,7 @@ const cardSchema = new mongoose.Schema({
       validator: (v) => checkValidity.isURL(v),
       message: 'Card URL is not valid',
     },
-    required: true,
+    required: [true, 'card link required'],
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
