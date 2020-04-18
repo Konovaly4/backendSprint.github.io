@@ -33,6 +33,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // request logger
 app.use(requestLogger);
 
+// temporary crash-test middleware
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 // request signup/signin routing
 app.post('/signin', celebrate({
   body: Joi.object().keys({

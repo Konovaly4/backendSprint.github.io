@@ -1,11 +1,13 @@
 # Место (backend at local "express" server)
 Yandex Praktikum single page testwork for Sprint 13 by Max Konovalov
 
+v0.3.0 - First "production" version. Logging and request validation via Joi added.
+
+v0.2.2 - Review bug fixed, helmet module added
+
 v0.2.0 - Authorization via token included
 
 v0.2.1 - Some bug fixed
-
-v0.2.2 - Review bug fixed, helmet module added
 
 ## About
 This testwork is about launch and configure local server via "Express" by Node JS for frontend part of Mesto project ([Sprint 11](https://konovaly4.github.io/Praktikum_sprint_11.github.io/)). This version includes MongoDB and Mongoose to contain collections of users and cards.
