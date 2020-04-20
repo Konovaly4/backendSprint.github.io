@@ -4,13 +4,14 @@
   "description": "backend for Mesto project",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js NODE_ENV=production",
-    "dev": "nodemon app.js NODE_ENV=development",
-    "test": "jest"
+    "start": "cross-env NODE_ENV=production node app.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
+    "test": "cross-env NODE_ENV=development jest"
   },
   "author": "Max Konovalov",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
