@@ -19,6 +19,7 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
+  useUnifiedTopology: true,
   useFindAndModify: false,
 })
   .then(() => console.log('mongoose is running'))
@@ -63,14 +64,14 @@ users.addUser);
 app.use('/users', celebrate({
   cookies: Joi.object().keys({
     jwt: Joi.string().required(),
-  }),
+  }).unknown(true),
 }),
 auth, require('./routes/users'));
 
 app.use('/cards', celebrate({
   cookies: Joi.object().keys({
     jwt: Joi.string().required(),
-  }),
+  }).unknown(true),
 }),
 auth, require('./routes/cards'));
 

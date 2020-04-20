@@ -14,11 +14,28 @@ router.post('/', celebrate({
 }),
 addCard);
 
-router.delete('/:cardId', checkCardOwner, removeCard);
+router.delete('/:cardId', celebrate({
+  params: Joi.object().keys({
+    // token() более-менее подходит для валидации id существущими методами joi,
+    // чтобы не делать кастомное регулярное выражение.
+    cardId: Joi.string().required().token().min(24),
+  }).unknown(true),
+}),
+checkCardOwner, removeCard);
 
-router.put('/:cardId/likes', likeCard);
+router.put('/:cardId/likes', celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().required().token().min(24),
+  }).unknown(true),
+}),
+likeCard);
 
-router.delete('/:cardId/likes', unlikeCard);
+router.delete('/:cardId/likes', celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().required().token().min(24),
+  }).unknown(true),
+}),
+unlikeCard);
 
 module.exports = router;
 

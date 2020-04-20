@@ -4,8 +4,8 @@
   "description": "backend for Mesto project",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node app.js NODE_ENV=production",
+    "dev": "nodemon app.js NODE_ENV=development",
     "test": "jest"
   },
   "author": "Max Konovalov",

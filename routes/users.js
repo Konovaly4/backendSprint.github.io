@@ -6,7 +6,14 @@ const {
 
 router.get('/', getUsers);
 
-router.get('/:id', getUserById);
+router.get('/:id', celebrate({
+  params: Joi.object().keys({
+    // token() более-менее подходит для валидации id существущими методами joi,
+    // чтобы не делать кастомное регулярное выражение.
+    id: Joi.string().required().token().min(24),
+  }).unknown(true),
+}),
+getUserById);
 
 router.patch('/me', celebrate({
   body: Joi.object().keys({
