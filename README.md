@@ -13,7 +13,6 @@ v0.2.0 - Authorization via token included
 
 v0.2.1 - Some bug fixed
 
-
 ## About
 This testwork is about launch and configure server via "Express" by Node JS for frontend part of Mesto project ([Sprint 11](https://konovaly4.github.io/Praktikum_sprint_11.github.io/)). This version includes MongoDB and Mongoose to contain collections of users and cards. Server provided by Yandex Cloud service.
 
