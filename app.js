@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-require('dotenv').config();
+// require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const PORT = require('./config');
+const { PORT, mongoConfig } = require('./config');
 
 const users = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -16,12 +16,7 @@ const auth = require('./middlewares/auth');
 const app = express();
 
 // mongoose connection
-mongoose.connect('mongodb://localhost:27017/mestodb', {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-})
+mongoose.connect('mongodb://localhost:27017/mestodb', mongoConfig)
   .then(() => console.log('mongoose is running'))
   .catch((err) => console.log(err.message));
 
@@ -61,19 +56,9 @@ app.post('/signup', celebrate({
 users.addUser);
 
 // users/cards/other requests routing
-app.use('/users', celebrate({
-  cookies: Joi.object().keys({
-    jwt: Joi.string().required(),
-  }).unknown(true),
-}),
-auth, require('./routes/users'));
+app.use('/users', auth, require('./routes/users'));
 
-app.use('/cards', celebrate({
-  cookies: Joi.object().keys({
-    jwt: Joi.string().required(),
-  }).unknown(true),
-}),
-auth, require('./routes/cards'));
+app.use('/cards', auth, require('./routes/cards'));
 
 app.use('/', require('./routes/otherReq'));
 

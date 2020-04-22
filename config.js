@@ -1,5 +1,14 @@
-const { PORT = 3000 } = process.env;
-// const JWT_SECRET = 'aaabbb000';
+/* eslint-disable no-console */
+require('dotenv').config();
 
-// module.exports = JWT_SECRET;
-module.exports = PORT;
+const { PORT = 3000, NODE_ENV, JWT_SECRET } = process.env;
+
+const mongoConfig = {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+};
+
+module.exports = { PORT, mongoConfig };
+module.exports.JWT_SECRET = NODE_ENV === 'production' ? JWT_SECRET : 'test-key';

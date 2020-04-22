@@ -4,7 +4,10 @@ const checkValidity = require('validator');
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
-    match: [/[a-zа-яё0-9]+/gi, 'card name is not valid'],
+    validate: {
+      validator: (v) => checkValidity.matches(v, /[a-zа-яё0-9\s]+/gi),
+      message: 'card name is not valid',
+    },
     minlength: 2,
     maxlength: 30,
     required: [true, 'card name required'],

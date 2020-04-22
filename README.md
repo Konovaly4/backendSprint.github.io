@@ -1,6 +1,8 @@
 # Место (backend at local "express" server)
 Yandex Praktikum single page testwork for Sprint 13 by Max Konovalov
 
+v0.3.2 - Second review comments applied
+
 v0.3.1 - Review comments applied
 
 v0.3.0 - First "production" version. Logging and request validation via Joi added.
