@@ -22,8 +22,9 @@ module.exports.addUser = (req, res, next) => {
     name, about, avatar, email, password,
   } = req.body;
   bcrypt.hash(password, 10)
+    // eslint-disable-next-line arrow-body-style
     .then((hash) => {
-      User.create({
+      return User.create({
         name, about, avatar, email, password: hash,
       })
         .then((user) => {
@@ -33,9 +34,7 @@ module.exports.addUser = (req, res, next) => {
             about: user.about,
             avatar: user.avatar,
           });
-        })
-        // если убрать этот блок .catch, запрос зависает
-        .catch(next);
+        });
     })
     .catch(next);
 };
@@ -71,7 +70,6 @@ module.exports.login = (req, res, next) => {
   return User.findUserByData(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-      console.log(JWT_SECRET);
       res.cookie('jwt', token, {
         maxAge: 3600000,
         httpOnly: true,

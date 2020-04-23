@@ -1,6 +1,6 @@
 const Card = require('../models/card');
 const NotFoundErr = require('../errors/notFoundErr');
-const UnauthorizedErr = require('../errors/unauthorizedErr');
+const ForbiddenErr = require('../errors/forbiddenErr');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({}).orFail(new NotFoundErr('there is no cards'))
@@ -21,7 +21,7 @@ module.exports.checkCardOwner = (req, res, next) => {
     .populate('owner')
     .then((card) => {
       if (card.owner.id !== req.user._id) {
-        throw new UnauthorizedErr('you cat not remove this card');
+        throw new ForbiddenErr('you cat not remove this card');
       }
       next();
     })
