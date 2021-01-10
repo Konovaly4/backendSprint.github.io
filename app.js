@@ -50,3 +50,4 @@ app.use('/cards', auth, require('./routes/cards'));
 app.use('/', require('./routes/otherReq'));
 
 app.listen(PORT);
+console.log(PORT);
