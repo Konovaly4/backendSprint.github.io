@@ -22,10 +22,9 @@ mongoose.connect(`mongodb://${SERVERADRESS}:27017/mestodb`, mongoConfig)
 const whitelist = [
   'http://localhost:8080',
   'http://localhost:3000',
-  // 'http://news-page.gq',
-  // 'https://news-page.gq',
-  // 'https://konovaly4.github.io/news-page-frontend.github.io',
-  // 'https://konovaly4.github.io',
+  'http://localhost:3001',
+  'http://my-mesto.gq',
+  'https://my-mesto.gq',
 ];
 const corsOptions = {
   credentials: true,

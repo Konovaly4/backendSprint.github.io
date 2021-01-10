@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const {
-  PORT = 3000, NODE_ENV, JWT_SECRET, SERVERADRESS,
+  PORT = 3001, NODE_ENV, JWT_SECRET, SERVERADRESS,
 } = process.env;
 
 const mongoConfig = {
