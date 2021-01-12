@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const PORT = require('./config');
 
 const users = require('./controllers/users');
+const initialCards = require('./controllers/initialCards');
 const auth = require('./middlewares/auth');
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/signin', users.login);
 app.post('/signup', users.addUser);
+app.get('/initialCards', initialCards.getCards);
 app.use('/users', auth, require('./routes/users'));
 app.use('/cards', auth, require('./routes/cards'));
 
