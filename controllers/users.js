@@ -94,7 +94,10 @@ module.exports.login = (req, res) => {
   return User.findUserByData(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-      res.send({ token }); // add to kookie!!
+      res.cookie('jwt', token, {
+        maxAge: 3600000,
+        httpOnly: true,
+      }).send({ message: 'logged in' });
     })
     .catch((err) => {
       res.status(401).send({ message: err.message });

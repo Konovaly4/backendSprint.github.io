@@ -1,14 +1,14 @@
+/* eslint-disable linebreak-style */
 const jwt = require('jsonwebtoken');
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET } = require('../constants/config');
 
 // eslint-disable-next-line consistent-return
 module.exports = (req, res, next) => {
-  const { authorization } = req.headers;
-  if (!authorization || !authorization.startsWith('Bearer ')) {
-    return res.status(401).send({ message: 'authorization required' });
+  const token = req.cookies.jwt;
+  if (!token) {
+    throw new Error('authorization faliture');
   }
-  const token = authorization.replace('Bearer ', '');
   let payload;
   try {
     payload = jwt.verify(token, JWT_SECRET);
