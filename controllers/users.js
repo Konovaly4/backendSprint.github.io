@@ -18,7 +18,8 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  User.findById(req.params.id)
+  User.findById(req.user._id)
+  // User.findById(req.params.id)
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: 'user is not found' });
@@ -103,3 +104,13 @@ module.exports.login = (req, res) => {
       res.status(401).send({ message: err.message });
     });
 };
+
+module.exports.logout = (req, res) => User.findById(req.user._id)
+  .then(() => {
+    res.clearCookie('jwt', {
+      httpOnly: true,
+    }).send({ message: 'logged out' });
+  })
+  .catch((err) => {
+    res.status(401).send({ message: err.message });
+  });
