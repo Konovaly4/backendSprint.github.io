@@ -24,6 +24,7 @@ const whitelist = [
   'http://localhost:8080',
   'http://localhost:3000',
   'http://localhost:3001',
+  'https://konovaly4.github.io/mesto-frontend.github.io',
   'http://my-mesto.gq',
   'https://my-mesto.gq',
 ];
